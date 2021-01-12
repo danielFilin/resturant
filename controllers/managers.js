@@ -41,7 +41,6 @@ exports.signupManager = async (req, res) => {
       message: 'Manager was not created!'
     })
   }
-
 }
 
 exports.loginManager = async (req, res) => {
