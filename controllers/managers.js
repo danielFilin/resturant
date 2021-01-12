@@ -3,8 +3,6 @@ const Manager = require('../models/manager');
 const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
 
-let managers = [];
-
 const validateManagerInput = require('../validation/manager');
 
 exports.signupPage = (req, res) => {
@@ -33,9 +31,10 @@ exports.signupManager = async (req, res) => {
     password: hash
   });
   try {
-    managers.push(manager);
+    const result = await manager.save();
     res.status(201).json({
       message: 'User was created',
+      data: result
     })
   } catch (err) {
     res.status(500).json({
@@ -47,7 +46,9 @@ exports.signupManager = async (req, res) => {
 }
 
 exports.loginManager = async (req, res) => {
+
   const { errors, isValid} = validateManagerInput(req.body);
+ 
   if (!isValid) {
       return res.status(400).json({
         errors: errors,
@@ -55,12 +56,11 @@ exports.loginManager = async (req, res) => {
   }
 
   try {
-    const currentManager = managers.find(manager => manager.email == req.body.email);
+    const currentManager = await Manager.findOne({email: req.body.email});
     if (!currentManager) {
       throw new Error ('manager with such an email does not exist in the system');
     }
     const isPasswordCorrect = await bcrypt.compare(req.body.password, currentManager.password);
-    console.log(isPasswordCorrect);
     if (!isPasswordCorrect) {
       throw new Error ('The user entered an invalid password');
     }
