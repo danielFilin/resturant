@@ -4,6 +4,7 @@
   "description": "",
   "main": "n.js",
   "scripts": {
+    "start": "node server.js",
     "start:server": "nodemon server.js"
   },
   "author": "daniel filin",
