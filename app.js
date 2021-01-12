@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const employeeRoutes = require('./routes/employees');
+const managersRoutes = require('./routes/manager');
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use( (req, res, next) => {
 });
 
 app.use(employeeRoutes);
+app.use(managersRoutes);
 
 module.exports = app;
