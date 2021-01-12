@@ -7,6 +7,20 @@ let managers = [];
 
 const validateManagerInput = require('../validation/manager');
 
+exports.signupPage = (req, res) => {
+  res.render('signup', {
+    pageTitle: 'signup',
+    path: '/api/signup',
+  });
+}
+
+exports.loginPage = (req, res) => {
+  res.render('login', {
+    pageTitle: 'login',
+    path: '/api/login',
+  });
+}
+
 exports.signupManager = async (req, res) => {
   const { errors, isValid} = validateManagerInput(req.body);
   if (!isValid) {

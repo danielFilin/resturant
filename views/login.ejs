@@ -1,0 +1,15 @@
+<%- include('includes/head.ejs') %>
+<link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+    <div class="login">
+        <h1>Login</h1>
+          <form action="/api/login" method="POST">
+            <input type="email" name="email" placeholder="email" required="required" />
+              <input type="password" name="password" placeholder="Password" required="required" />
+              <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+          </form>
+      </div>
+
+<%- include('includes/end.ejs') %>

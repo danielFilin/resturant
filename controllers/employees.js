@@ -58,6 +58,9 @@ exports.editEmployee = async (req, res) => {
 }
 
 exports.getEmployees = async (req, res) => {
+    res.status(404).render('404', {
+        pageTitle: 'Page not found'
+    });
   try {
     if (employeesList.length < 0) {
       res.status(201).json({
