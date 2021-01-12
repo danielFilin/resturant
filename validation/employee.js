@@ -8,7 +8,7 @@ module.exports = function validateEmployeeInput(data) {
   }
 
   if(!Validator.isLength(data.lastName, {min:2, max: 25})){
-    errors.lastName = 'Lat name should be at least 2 and maximum 25 charachters long';
+    errors.lastName = 'Last name should be at least 2 and maximum 25 charachters long';
   }
 
   if(!Validator.isDate(data.DateOfBirth)){

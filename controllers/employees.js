@@ -2,62 +2,58 @@ const Employee = require('../models/employee');
 const validateEmployeeInput = require('../validation/employee');
 
 exports.addEmployee = async (req, res) => {
-    const { errors, isValid} = validateEmployeeInput(req.body);
+  const { errors, isValid} = validateEmployeeInput(req.body);
+  if (!isValid) {
+      return res.status(400).json(errors);
+  }
 
-    if (!isValid) {
-        return res.status(400).json(errors);
-    }
-
-    const employee = new Employee({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        DateOfBirth: req.body.DateOfBirth,
-        dateOfEmployment: req.body.dateOfEmployment
-    })
-    try {  
-        await employee.save();
-        res.status(200).json({
-            message: 'employee was added',
-    })
-    } catch (err) {
-    console.log(err);
-    res.status(500).json({
-        message: 'Employee was not added',
-        err: err
-    })
-    }
+  const employee = new Employee({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      DateOfBirth: req.body.DateOfBirth,
+      dateOfEmployment: req.body.dateOfEmployment
+  })
+  try {  
+      await employee.save();
+      res.status(200).json({
+          message: 'employee was added',
+  })
+  } catch (err) {
+  console.log(err);
+  res.status(500).json({
+      message: 'Employee was not added',
+      err: err
+  })
+  }
 }
 
 exports.editEmployee = async (req, res) => {
-    const { errors, isValid} = validateEmployeeInput(req.body);
+  const { errors, isValid} = validateEmployeeInput(req.body);
+  if (!isValid) {
+      return res.status(400).json(errors);
+  }
 
-    if (!isValid) {
-        return res.status(400).json(errors);
+  try {  
+    editedEmployee = new Employee({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      DateOfBirth: req.body.DateOfBirth,
+      dateOfEmployment: req.body.dateOfEmployment,
+      _id: req.params.id
+    });
+    const updatedResult = await Employee.updateOne({_id: req.params.id}, editedEmployee);
+    if (updatedResult.n > 0) {
+    res.status(200).json({
+        message: 'employee information was edited',
+    })
+    } else {
+      throw new Error ('Information was not changed');
     }
-    try {  
-      editedEmployee = new Employee({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        DateOfBirth: req.body.DateOfBirth,
-        dateOfEmployment: req.body.dateOfEmployment,
-        _id: req.params.id
-      });
-      const updatedResult = await Employee.updateOne({_id: req.params.id}, editedEmployee);
-      console.log(updatedResult)
-      if (updatedResult.n > 0) {
-      res.status(200).json({
-          message: 'employee information was edited',
+  } catch (err) {
+      res.status(500).json({
+          message: 'Employee edit failed',
       })
-      } else {
-        throw new Error ('Information was not changed');
-      }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Employee edit failed',
-            err: err
-        })
-    }
+  }
 }
 
 exports.getEmployees = async (req, res) => {
@@ -70,6 +66,25 @@ exports.getEmployees = async (req, res) => {
     }
     res.status(200).json({
       data: allEmployees
+    })
+  } catch (err) {
+      res.status(500).json({
+       err: err,
+       message: 'getting list of employees failed'
+     })
+  }
+}
+
+exports.getSingleEmployee = async (req, res) => {
+  try {
+    const singleEmployee = await Employee.findById(req.params.id);
+    if (!singleEmployee) {
+      res.status(201).json({
+        message: 'no employees with such an ID exists in the system'
+      })
+    }
+    res.status(200).json({
+      data: singleEmployee
     })
   } catch (err) {
       res.status(500).json({

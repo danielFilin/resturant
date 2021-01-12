@@ -33,12 +33,11 @@ exports.signupManager = async (req, res) => {
   try {
     const result = await manager.save();
     res.status(201).json({
-      message: 'User was created',
+      message: 'Manager was created',
       data: result
     })
   } catch (err) {
     res.status(500).json({
-      err: err,
       message: 'Manager was not created!'
     })
   }
@@ -46,9 +45,7 @@ exports.signupManager = async (req, res) => {
 }
 
 exports.loginManager = async (req, res) => {
-
   const { errors, isValid} = validateManagerInput(req.body);
- 
   if (!isValid) {
       return res.status(400).json({
         errors: errors,
@@ -74,7 +71,6 @@ exports.loginManager = async (req, res) => {
    })
   } catch (err) {
       res.status(500).json({
-       err: err,
        message: 'login failed'
      })
   }

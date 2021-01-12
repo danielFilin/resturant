@@ -9,7 +9,6 @@ const managersRoutes = require('./routes/manager');
 
 const errorController = require('./controllers/error');
 
-
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useUnifiedTopology', true);
@@ -19,12 +18,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 
 mongoose.connect(`mongodb+srv://filind85:${keys.mongoDB}@cluster0.cdffu.mongodb.net/restuarant?retryWrites=true&w=majority`).then(() => {
   console.log('connected to DB')
@@ -44,7 +39,6 @@ app.use( (req, res, next) => {
 
 app.use(employeeRoutes);
 app.use(managersRoutes);
-
 app.use(errorController.get404);
 
 module.exports = app;
