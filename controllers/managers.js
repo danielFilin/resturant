@@ -22,7 +22,7 @@ exports.loginPage = (req, res) => {
 exports.signupManager = async (req, res) => {
   const { errors, isValid} = validateManagerInput(req.body);
   if (!isValid) {
-      return res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
   
   const hash = await bcrypt.hash(req.body.password, 10);
@@ -46,9 +46,9 @@ exports.signupManager = async (req, res) => {
 exports.loginManager = async (req, res) => {
   const { errors, isValid} = validateManagerInput(req.body);
   if (!isValid) {
-      return res.status(400).json({
-        errors: errors,
-      });
+    return res.status(400).json({
+      errors: errors,
+    });
   }
 
   try {
@@ -70,7 +70,7 @@ exports.loginManager = async (req, res) => {
    })
   } catch (err) {
       res.status(500).json({
-       message: 'login failed'
+        message: 'login failed'
      })
   }
 }

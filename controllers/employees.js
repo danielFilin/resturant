@@ -4,33 +4,33 @@ const validateEmployeeInput = require('../validation/employee');
 exports.addEmployee = async (req, res) => {
   const { errors, isValid} = validateEmployeeInput(req.body);
   if (!isValid) {
-      return res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
 
   const employee = new Employee({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      DateOfBirth: req.body.DateOfBirth,
-      dateOfEmployment: req.body.dateOfEmployment
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    DateOfBirth: req.body.DateOfBirth,
+    dateOfEmployment: req.body.dateOfEmployment
   })
   try {  
-      await employee.save();
-      res.status(200).json({
-          message: 'employee was added',
+    await employee.save();
+    res.status(200).json({
+      message: 'employee was added',
   })
   } catch (err) {
-  console.log(err);
-  res.status(500).json({
+    console.log(err);
+    res.status(500).json({
       message: 'Employee was not added',
       err: err
-  })
+    })
   }
 }
 
 exports.editEmployee = async (req, res) => {
   const { errors, isValid} = validateEmployeeInput(req.body);
   if (!isValid) {
-      return res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
 
   try {  
@@ -43,7 +43,7 @@ exports.editEmployee = async (req, res) => {
     });
     const updatedResult = await Employee.updateOne({_id: req.params.id}, editedEmployee);
     if (updatedResult.n > 0) {
-    res.status(200).json({
+      res.status(200).json({
         message: 'employee information was edited',
     })
     } else {
@@ -51,7 +51,7 @@ exports.editEmployee = async (req, res) => {
     }
   } catch (err) {
       res.status(500).json({
-          message: 'Employee edit failed',
+        message: 'Employee edit failed',
       })
   }
 }
@@ -69,8 +69,8 @@ exports.getEmployees = async (req, res) => {
     })
   } catch (err) {
       res.status(500).json({
-       err: err,
-       message: 'getting list of employees failed'
+        err: err,
+        message: 'getting list of employees failed'
      })
   }
 }
@@ -103,8 +103,8 @@ exports.deleteEmployee = async (req, res) => {
       })
   } catch (err) {
       res.status(500).json({
-       err: err,
-       message: 'employee was not deleted'
+        err: err,
+        message: 'employee was not deleted'
      })
   }
 }
