@@ -15,13 +15,10 @@ exports.addEmployee = async (req, res) => {
   })
   try {  
     await employee.save();
-    res.status(200).json({
-      message: 'employee was added',
-  })
+    res.status(200);
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Employee was not added',
       err: err
     })
   }
@@ -59,11 +56,7 @@ exports.editEmployee = async (req, res) => {
 exports.getEmployees = async (req, res) => {
   try {
     const allEmployees = await Employee.find();
-    if (allEmployees.length < 0) {
-      res.status(201).json({
-        message: 'no employees in the system yet'
-      })
-    }
+   
     res.status(200).json({
       data: allEmployees
     })
@@ -79,9 +72,7 @@ exports.getSingleEmployee = async (req, res) => {
   try {
     const singleEmployee = await Employee.findById(req.params.id);
     if (!singleEmployee) {
-      res.status(201).json({
-        message: 'no employees with such an ID exists in the system'
-      })
+      res.status(404);
     }
     res.status(200).json({
       data: singleEmployee
@@ -98,7 +89,6 @@ exports.deleteEmployee = async (req, res) => {
   try {
     deletedEmployee = await Employee.deleteOne({_id: req.params.id});
       res.status(201).json({
-        message: 'employee was deleted',
         data: deletedEmployee
       })
   } catch (err) {

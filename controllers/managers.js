@@ -33,7 +33,6 @@ exports.signupManager = async (req, res) => {
   try {
     const result = await manager.save();
     res.status(201).json({
-      message: 'Manager was created',
       data: result
     })
   } catch (err) {
